@@ -20,11 +20,27 @@ const slides = [
 let leftArrow = document.querySelector('.arrow_left');
 let rightArrow = document.querySelector('.arrow_right');
 
-// Recupére les bullet points
-let dots = document.querySelectorAll('.dot');
-
 // Indique la diapositive actuelle
 let position = 0;
+
+// Recupére la div dots
+let dotsContainer = document.querySelector('.dots');
+let dots = [];
+
+
+// Initialisation des bullet points
+for (let i = 0; i < slides.length; i++) {
+	let dot = document.createElement('p');
+	dot.classList.add('dot');
+	dotsContainer.appendChild(dot);
+	dots.push(dot);
+
+	dot.addEventListener('click', function () {
+		updateSlide(i);
+	});
+}
+
+dots[0].classList.add('dot_selected');
 
 
 // Event listeners, événement au clic
@@ -32,7 +48,6 @@ leftArrow.addEventListener('click', function () {
 	console.log("Clic sur la flèche gauche");
 	let previousImg = position - 1; //Img précedente 
 	if (previousImg < 0) {
-		//Revenir à la dernière img
 		previousImg = slides.length - 1;
 	}
 	updateSlide(previousImg);
@@ -42,7 +57,6 @@ rightArrow.addEventListener('click', function () {
 	console.log("Clic sur la flèche droite");
 	let nextImg = position + 1; //Img suivante 
 	if (nextImg >= slides.length) {
-		//Revenir à la première img
 		nextImg = 0;
 	}
 	updateSlide(nextImg);
@@ -66,10 +80,3 @@ function updateSlide(index) {
 	// MAJ index de la diapositive actuelle
 	position = index;
 }
-
-// Event listener pour les points , événement au clic
-dots.forEach(function (dot,index) { // Acces au éléments du tableaux, et leurs positions
-	dot.addEventListener('click', function () {
-		updateSlide(index);
-	});
-});
